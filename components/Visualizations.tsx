@@ -332,8 +332,13 @@ Source: bitcoindca.ca`;
 
       {/* Modal Overlay */}
       {showModal && previewUrl && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm animate-fade-in">
-          <div className="bg-white rounded-3xl max-w-6xl w-full max-h-[90vh] flex flex-col md:flex-row overflow-hidden shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm animate-fade-in cursor-pointer"
+        onClick={() => window.location.href = "/"}
+        >
+        <div
+  className="bg-white rounded-3xl max-w-6xl w-full max-h-[90vh] flex flex-col md:flex-row overflow-hidden shadow-2xl"
+  onClick={(e) => e.stopPropagation()}
+        >
             
             {/* Preview Section */}
             <div className="flex-1 bg-slate-100 p-8 md:p-12 flex items-center justify-center overflow-auto min-h-[400px]">
