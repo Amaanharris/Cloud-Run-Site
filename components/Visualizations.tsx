@@ -239,7 +239,7 @@ Source: bitcoindca.ca @beaverbitcoin`;
     <div className="w-full mt-16 relative">
       
       {/* 
-        HIDDEN SHARING GRAPHIC (1080x1080) - Optimized Spacing
+        HIDDEN SHARING GRAPHIC (1080x1080) - Optimized for 1:1 balance
       */}
       <div 
         style={{ position: 'absolute', top: 0, left: '-2000px', width: '1080px', pointerEvents: 'none' }}
@@ -248,16 +248,16 @@ Source: bitcoindca.ca @beaverbitcoin`;
         <div 
           id="share-card-content" 
           className="bg-white p-24 font-sans flex flex-col items-center w-[1080px] h-[1080px]"
-          style={{ justifyContent: 'space-between' }}
         >
           {/* Header */}
-          <div className="flex w-full justify-between items-center border-b border-slate-100 pb-10">
+          <div className="flex w-full justify-between items-center border-b border-slate-100 pb-10 mb-12">
             <span className="text-2xl font-black text-slate-300 uppercase tracking-[0.4em]">DCA Calculator</span>
             <span className="text-2xl font-black text-slate-900 tracking-tighter">BitcoinDCA.ca</span>
           </div>
 
-          {/* Main Content - Using space-y to control distribution */}
-          <div className="flex flex-col items-center w-full space-y-16">
+          {/* Main Content Area - Growing to fill space */}
+          <div className="flex flex-col items-center justify-center flex-grow w-full space-y-24">
+            
             <div className="flex flex-col items-center text-center">
               <span className="text-xl font-black text-slate-900 uppercase tracking-[0.2em] mb-4">
                 The Strategy <span className="ml-4 font-black text-slate-400">(ASSUMING {inputs.growthRate}% CAGR)</span>
@@ -286,9 +286,9 @@ Source: bitcoindca.ca @beaverbitcoin`;
             </div>
           </div>
 
-          {/* Footer branding - increased separation from above */}
-          <div className="flex flex-col items-center text-center pb-8 mt-auto pt-12">
-             <p className="text-2xl text-slate-400 font-medium mb-4">Start stacking sats today.</p>
+          {/* Footer branding area - Anchor to bottom with defined space */}
+          <div className="flex flex-col items-center text-center pb-8 mt-16">
+             <p className="text-2xl text-slate-400 font-bold mb-4">Start stacking sats today.</p>
              <p className="text-7xl font-black text-beaver-red tracking-tight">beaverbitcoin.com</p>
           </div>
         </div>
@@ -328,12 +328,12 @@ Source: bitcoindca.ca @beaverbitcoin`;
          </button>
       </div>
 
-      {/* MODAL OVERLAY - Optimized for Mobile Screen Fit */}
+      {/* MODAL OVERLAY - Optimized for Mobile Screen Fit with buttons */}
       {showModal && previewUrl && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-2 sm:p-4 bg-slate-900/90 backdrop-blur-md animate-fade-in">
           <div className="bg-white rounded-[24px] lg:rounded-[32px] max-w-4xl w-full flex flex-col lg:flex-row overflow-hidden shadow-2xl animate-scale-in max-h-[96vh]">
             
-            {/* Left/Top: Preview Area */}
+            {/* Preview Display */}
             <div className="flex-1 bg-slate-50 p-4 sm:p-6 lg:p-8 flex items-center justify-center overflow-hidden min-h-0">
                <div className="max-w-[260px] sm:max-w-[340px] lg:max-w-none w-full flex justify-center">
                   <img 
@@ -344,7 +344,7 @@ Source: bitcoindca.ca @beaverbitcoin`;
                </div>
             </div>
             
-            {/* Right/Bottom: Controls Area */}
+            {/* Modal Controls */}
             <div className="w-full lg:w-[350px] bg-white p-4 sm:p-6 lg:p-10 flex flex-col justify-center border-t lg:border-t-0 lg:border-l border-slate-100 shrink-0 overflow-y-auto">
                <div className="mb-3 sm:mb-6 text-center lg:text-left">
                  <h3 className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 mb-0.5 sm:mb-2 tracking-tight">Ready to Share</h3>
