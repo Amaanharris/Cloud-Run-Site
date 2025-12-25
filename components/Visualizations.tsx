@@ -267,10 +267,10 @@ Source: bitcoindca.ca @beaverbitcoin`;
               </h2>
             </div>
 
-            {/* HIGHLIGHT: Estimated Value (Matches Bottom Metric Style) */}
+            {/* HIGHLIGHT: Estimated Value Centerpiece - Requested 3x larger label & highlighted value */}
             <div className="flex flex-col items-center text-center">
-              <span className="text-xl font-black text-slate-300 uppercase tracking-[0.2em] mb-4">Estimated Value</span>
-              <div className="text-7xl font-black text-slate-900 tracking-tight">
+              <span className="text-6xl font-black text-slate-300 uppercase tracking-[0.1em] mb-8">Estimated Value</span>
+              <div className="text-[160px] font-black text-beaver-red leading-none tracking-tighter">
                 {formatCurrency(results.finalValue)}
               </div>
             </div>
