@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { SimulationResult, SimulationStep, DcaInputs } from '../types';
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { formatBtc, formatCurrency, formatSats } from '../utils/calculations';
-import { Share2, TrendingUp, Download, X, Wallet, CircleDollarSign } from 'lucide-react';
+import { Share2, TrendingUp, Download, X } from 'lucide-react';
 import html2canvas from 'html2canvas';
 
 interface VisualizationsProps {
@@ -186,20 +186,26 @@ const Visualizations: React.FC<VisualizationsProps> = ({ results, inputs }) => {
     setIsCapturing(true);
     
     try {
-      await new Promise(resolve => setTimeout(resolve, 50));
+      await new Promise(resolve => setTimeout(resolve, 100));
 
       const canvas = await html2canvas(shareCardRef.current, {
         scale: 2,
         backgroundColor: '#ffffff',
         useCORS: true,
         logging: false,
+        width: 1080,
+        height: 1080,
         onclone: (doc) => {
             const el = doc.getElementById('share-card-content');
-            if (el) el.style.visibility = 'visible';
+            if (el) {
+                el.style.visibility = 'visible';
+                el.style.display = 'flex';
+                el.style.position = 'static';
+            }
         }
       });
 
-      const url = canvas.toDataURL("image/png");
+      const url = canvas.toDataURL("image/png", 1.0);
       setPreviewUrl(url);
       setShowModal(true);
     } catch (error) {
@@ -221,9 +227,9 @@ const Visualizations: React.FC<VisualizationsProps> = ({ results, inputs }) => {
   };
 
   const handleShareOnX = () => {
-    const text = `Buying ${formatCurrency(inputs.monthlyDca)}/mo of bitcoin for ${inputs.years} years accumulates ${formatBtc(results.totalBtc)} BTC worth ${formatCurrency(results.finalValue)} CAD 🚀
+    const text = `Buying ${formatCurrency(inputs.monthlyDca)}/mo of bitcoin for ${inputs.years} years accumulates ${formatSats(results.totalSats)} sats worth ${formatCurrency(results.finalValue)} CAD 🚀
 
-Source: bitcoindca.ca`;
+Source: bitcoindca.ca @beaverbitcoin`;
 
     const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
     window.open(twitterUrl, '_blank', 'noopener,noreferrer');
@@ -233,64 +239,57 @@ Source: bitcoindca.ca`;
     <div className="w-full mt-16 relative">
       
       {/* 
-        MINIMAL SOCIAL SHARING GRAPHIC - FINAL V6 REFINEMENT
-        Heading changed to "TOTAL SATS".
-        Removed "SATS" suffix from number.
-        Maintained bold labels and CAGR context.
+        HIDDEN SHARING GRAPHIC (1080x1080) - Optimized Spacing
       */}
       <div 
-        style={{ position: 'absolute', top: 0, left: '-9999px', width: '1080px' }}
+        style={{ position: 'absolute', top: 0, left: '-2000px', width: '1080px', pointerEvents: 'none' }}
         ref={shareCardRef}
       >
         <div 
           id="share-card-content" 
-          className="bg-white p-24 font-sans flex flex-col items-center w-full"
-          style={{ height: '1080px', justifyContent: 'space-between' }}
+          className="bg-white p-24 font-sans flex flex-col items-center w-[1080px] h-[1080px]"
+          style={{ justifyContent: 'space-between' }}
         >
-          
-          {/* Header - Single Line */}
-          <div className="flex w-full justify-between items-center border-b border-slate-50 pb-8">
-            <span className="text-xl font-bold text-slate-400 uppercase tracking-[0.3em]">DCA Calculator</span>
-            <span className="text-xl font-black text-slate-900 tracking-tighter">BitcoinDCA.ca</span>
+          {/* Header */}
+          <div className="flex w-full justify-between items-center border-b border-slate-100 pb-10">
+            <span className="text-2xl font-black text-slate-300 uppercase tracking-[0.4em]">DCA Calculator</span>
+            <span className="text-2xl font-black text-slate-900 tracking-tighter">BitcoinDCA.ca</span>
           </div>
 
-          {/* Main Stacked Content */}
+          {/* Main Content - Using space-y to control distribution */}
           <div className="flex flex-col items-center w-full space-y-16">
-            
             <div className="flex flex-col items-center text-center">
-              <span className="text-lg font-black text-slate-900 uppercase tracking-widest mb-4">
-                The Strategy <span className="ml-4 font-black opacity-60">(ASSUMING {inputs.growthRate}% CAGR)</span>
+              <span className="text-xl font-black text-slate-900 uppercase tracking-[0.2em] mb-4">
+                The Strategy <span className="ml-4 font-black text-slate-400">(ASSUMING {inputs.growthRate}% CAGR)</span>
               </span>
-              <h2 className="text-6xl font-black text-slate-900 leading-tight">
-                 Buying <span className="text-beaver-red">{formatCurrency(inputs.monthlyDca)}</span> monthly <br/> for <span className="text-beaver-red">{inputs.years} Years</span>
+              <h2 className="text-7xl font-black text-slate-900 leading-tight tracking-tight">
+                 Buying <span className="text-beaver-red">${inputs.monthlyDca}</span> monthly <br/> for <span className="text-beaver-red">{inputs.years} Years</span>
               </h2>
             </div>
 
             <div className="flex flex-col items-center text-center">
-              <span className="text-lg font-black text-slate-900 uppercase tracking-widest mb-4">Total Sats</span>
-              <div className="text-[90px] font-black text-beaver-red leading-none tracking-tighter flex items-baseline">
+              <span className="text-xl font-black text-slate-900 uppercase tracking-[0.4em] mb-4">Total Sats</span>
+              <div className="text-[140px] font-black text-beaver-red leading-none tracking-tighter">
                 {formatSats(results.totalSats)}
               </div>
             </div>
 
-            <div className="flex w-full max-w-5xl justify-around border-t border-slate-100 pt-16">
+            <div className="flex w-full max-w-5xl justify-around border-t border-slate-50 pt-16">
                 <div className="flex flex-col items-center text-center">
-                   <span className="text-lg font-bold text-slate-400 uppercase tracking-widest mb-4">Total Invested</span>
-                   <div className="text-6xl font-black text-slate-900">{formatCurrency(results.totalInvested)}</div>
+                   <span className="text-xl font-black text-slate-300 uppercase tracking-[0.2em] mb-4">Total Invested</span>
+                   <div className="text-7xl font-black text-slate-900 tracking-tight">${results.totalInvested.toLocaleString()}</div>
                 </div>
-
                 <div className="flex flex-col items-center text-center">
-                   <span className="text-lg font-bold text-slate-400 uppercase tracking-widest mb-4">Future Value</span>
-                   <div className="text-6xl font-black text-slate-900">{formatCurrency(results.finalValue)}</div>
+                   <span className="text-xl font-black text-slate-300 uppercase tracking-[0.2em] mb-4">Future Value</span>
+                   <div className="text-7xl font-black text-slate-900 tracking-tight">${Math.round(results.finalValue).toLocaleString()}</div>
                 </div>
             </div>
-
           </div>
 
-          {/* Footer */}
-          <div className="flex flex-col items-center text-center pb-8">
-             <p className="text-2xl text-slate-400 font-semibold mb-4">Start stacking sats today.</p>
-             <p className="text-6xl font-black text-beaver-red tracking-tight">beaverbitcoin.com</p>
+          {/* Footer branding - increased separation from above */}
+          <div className="flex flex-col items-center text-center pb-8 mt-auto pt-12">
+             <p className="text-2xl text-slate-400 font-medium mb-4">Start stacking sats today.</p>
+             <p className="text-7xl font-black text-beaver-red tracking-tight">beaverbitcoin.com</p>
           </div>
         </div>
       </div>
@@ -305,7 +304,6 @@ Source: bitcoindca.ca`;
         {renderTable(results.yearlySteps)}
       </div>
 
-      {/* Action Buttons */}
       <div 
         className="flex flex-col items-center gap-6 mt-12 mb-8" 
         data-html2canvas-ignore="true"
@@ -330,57 +328,53 @@ Source: bitcoindca.ca`;
          </button>
       </div>
 
-      {/* Modal Overlay */}
+      {/* MODAL OVERLAY - Optimized for Mobile Screen Fit */}
       {showModal && previewUrl && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm animate-fade-in cursor-pointer"
-        onClick={() => window.location.href = "/"}
-        >
-        <div
-  className="bg-white rounded-3xl max-w-6xl w-full max-h-[90vh] flex flex-col md:flex-row overflow-hidden shadow-2xl"
-  onClick={(e) => e.stopPropagation()}
-        >
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-2 sm:p-4 bg-slate-900/90 backdrop-blur-md animate-fade-in">
+          <div className="bg-white rounded-[24px] lg:rounded-[32px] max-w-4xl w-full flex flex-col lg:flex-row overflow-hidden shadow-2xl animate-scale-in max-h-[96vh]">
             
-            {/* Preview Section */}
-            <div className="flex-1 bg-slate-100 p-8 md:p-12 flex items-center justify-center overflow-auto min-h-[400px]">
-               <img 
-                 src={previewUrl} 
-                 alt="Result Preview" 
-                 className="max-w-full max-h-[70vh] shadow-2xl rounded-2xl border-4 border-white object-contain transform transition-transform hover:scale-[1.01]"
-               />
+            {/* Left/Top: Preview Area */}
+            <div className="flex-1 bg-slate-50 p-4 sm:p-6 lg:p-8 flex items-center justify-center overflow-hidden min-h-0">
+               <div className="max-w-[260px] sm:max-w-[340px] lg:max-w-none w-full flex justify-center">
+                  <img 
+                    src={previewUrl} 
+                    alt="Result Preview" 
+                    className="w-full h-auto max-h-[25vh] sm:max-h-[35vh] lg:max-h-[60vh] shadow-xl rounded-2xl border-2 sm:border-4 border-white object-contain"
+                  />
+               </div>
             </div>
             
-            {/* Controls Section */}
-            <div className="w-full md:w-[400px] bg-white p-8 md:p-10 flex flex-col justify-center gap-8 border-l border-slate-100 z-10 shadow-xl">
-               <div>
-                 <h3 className="text-3xl font-bold text-slate-900 mb-3">Ready to Share</h3>
-                 <p className="text-slate-500 text-base leading-relaxed mb-6">
-                   Here is a snapshot of your Bitcoin DCA strategy. Share it with your network!
+            {/* Right/Bottom: Controls Area */}
+            <div className="w-full lg:w-[350px] bg-white p-4 sm:p-6 lg:p-10 flex flex-col justify-center border-t lg:border-t-0 lg:border-l border-slate-100 shrink-0 overflow-y-auto">
+               <div className="mb-3 sm:mb-6 text-center lg:text-left">
+                 <h3 className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 mb-0.5 sm:mb-2 tracking-tight">Ready to Share</h3>
+                 <p className="text-slate-500 text-[10px] sm:text-sm leading-relaxed font-medium">
+                   Snapshot of your DCA strategy. <br className="hidden md:block"/> Share it with your network!
                  </p>
                </div>
 
-               <div className="flex flex-col gap-4">
+               <div className="flex flex-col gap-2">
                  <button 
                    onClick={handleDownload}
-                   className="w-full bg-beaver-red hover:bg-beaver-dark text-white font-bold py-4 px-6 rounded-xl flex items-center justify-center gap-3 transition-all shadow-md hover:shadow-lg hover:scale-[1.02]"
+                   className="w-full bg-beaver-red hover:bg-beaver-dark text-white font-black py-2.5 sm:py-3.5 px-4 sm:px-6 rounded-xl sm:rounded-2xl flex items-center justify-center gap-2 transition-all shadow-md hover:scale-[1.01] text-sm sm:text-lg"
                  >
-                   <Download className="w-5 h-5" />
+                   <Download className="w-4 h-4 sm:w-5 sm:h-5" />
                    Download Image
                  </button>
 
                  <button 
                    onClick={handleShareOnX}
-                   className="w-full bg-black hover:bg-slate-800 text-white font-bold py-4 px-6 rounded-xl flex items-center justify-center gap-3 transition-all shadow-md hover:shadow-lg hover:scale-[1.02]"
+                   className="w-full bg-black hover:bg-slate-800 text-white font-black py-2.5 sm:py-3.5 px-4 sm:px-6 rounded-xl sm:rounded-2xl flex items-center justify-center gap-2 transition-all shadow-md hover:scale-[1.01] text-sm sm:text-lg"
                  >
-                    {/* X Logo */}
-                   <svg viewBox="0 0 24 24" aria-hidden="true" className="w-5 h-5 fill-current"><g><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></g></svg>
+                   <svg viewBox="0 0 24 24" aria-hidden="true" className="w-4 h-4 sm:w-5 sm:h-5 fill-current"><g><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></g></svg>
                    Share on X
                  </button>
 
                  <button 
                    onClick={() => setShowModal(false)}
-                   className="w-full bg-white hover:bg-slate-50 text-slate-700 font-bold py-4 px-6 rounded-xl border border-slate-200 flex items-center justify-center gap-2 transition-colors mt-2"
+                   className="w-full bg-white hover:bg-slate-50 text-slate-400 font-bold py-1.5 sm:py-2 px-4 rounded-xl sm:rounded-2xl border border-slate-100 flex items-center justify-center gap-2 transition-colors mt-0.5 sm:mt-1 text-[10px] sm:text-sm"
                  >
-                   <X className="w-5 h-5" />
+                   <X className="w-3 h-3 sm:w-4 sm:h-4" />
                    Close
                  </button>
                </div>
@@ -388,6 +382,23 @@ Source: bitcoindca.ca`;
           </div>
         </div>
       )}
+
+      <style dangerouslySetInnerHTML={{__html: `
+        @keyframes scale-in {
+          0% { transform: scale(0.97); opacity: 0; }
+          100% { transform: scale(1); opacity: 1; }
+        }
+        .animate-scale-in {
+          animation: scale-in 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .animate-fade-in {
+          animation: fade-in 0.2s ease-out forwards;
+        }
+        @keyframes fade-in {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+      `}} />
 
     </div>
   );
