@@ -22,21 +22,21 @@ const Visualizations: React.FC<VisualizationsProps> = ({ results, inputs }) => {
   // --- Components for Main View ---
 
   const renderProjectedPrice = () => (
-    <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 mb-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+    <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 mb-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 sm:gap-4">
       <div>
         <div className="flex items-center gap-2 mb-2">
           <TrendingUp className="w-5 h-5 text-beaver-red" />
-          <h3 className="text-lg font-bold text-beaver-red">Projected BTC Price in {projectedYear}</h3>
+          <h3 className="text-base sm:text-lg font-bold text-beaver-red">Projected BTC Price in {projectedYear}</h3>
         </div>
         <div className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">
           {formatCurrency(results.finalBtcPrice)}
         </div>
       </div>
-      <div className="text-right md:text-left">
-         <p className="text-sm font-semibold text-slate-500">
+      <div className="text-left">
+         <p className="text-[11px] sm:text-sm font-bold text-slate-400 uppercase tracking-widest mb-1">
            Assumed Growth Rate
          </p>
-         <p className="text-lg font-bold text-slate-700">
+         <p className="text-xl sm:text-xl font-bold text-slate-700">
            {inputs.growthRate}% per year
          </p>
       </div>
@@ -239,7 +239,7 @@ Source: bitcoindca.ca @beaverbitcoin`;
     <div className="w-full mt-16 relative">
       
       {/* 
-        HIDDEN SHARING GRAPHIC (1080x1080) - Optimized for 1:1 balance
+        HIDDEN SHARING GRAPHIC (1080x1080) - Optimized for Minimal High-End Style
       */}
       <div 
         style={{ position: 'absolute', top: 0, left: '-2000px', width: '1080px', pointerEvents: 'none' }}
@@ -255,7 +255,7 @@ Source: bitcoindca.ca @beaverbitcoin`;
             <span className="text-2xl font-black text-slate-900 tracking-tighter">BitcoinDCA.ca</span>
           </div>
 
-          {/* Main Content Area - Growing to fill space */}
+          {/* Main Content Area */}
           <div className="flex flex-col items-center justify-center flex-grow w-full space-y-24">
             
             <div className="flex flex-col items-center text-center">
@@ -267,26 +267,28 @@ Source: bitcoindca.ca @beaverbitcoin`;
               </h2>
             </div>
 
+            {/* HIGHLIGHT: Estimated Value (Matches Bottom Metric Style) */}
             <div className="flex flex-col items-center text-center">
-              <span className="text-xl font-black text-slate-900 uppercase tracking-[0.4em] mb-4">Total Sats</span>
-              <div className="text-[140px] font-black text-beaver-red leading-none tracking-tighter">
-                {formatSats(results.totalSats)}
+              <span className="text-xl font-black text-slate-300 uppercase tracking-[0.2em] mb-4">Estimated Value</span>
+              <div className="text-7xl font-black text-slate-900 tracking-tight">
+                {formatCurrency(results.finalValue)}
               </div>
             </div>
 
+            {/* DIVIDER & SECONDARY METRICS: Total Invested & Total Sats */}
             <div className="flex w-full max-w-5xl justify-around border-t border-slate-50 pt-16">
                 <div className="flex flex-col items-center text-center">
                    <span className="text-xl font-black text-slate-300 uppercase tracking-[0.2em] mb-4">Total Invested</span>
                    <div className="text-7xl font-black text-slate-900 tracking-tight">${results.totalInvested.toLocaleString()}</div>
                 </div>
                 <div className="flex flex-col items-center text-center">
-                   <span className="text-xl font-black text-slate-300 uppercase tracking-[0.2em] mb-4">Future Value</span>
-                   <div className="text-7xl font-black text-slate-900 tracking-tight">${Math.round(results.finalValue).toLocaleString()}</div>
+                   <span className="text-xl font-black text-slate-300 uppercase tracking-[0.2em] mb-4">Total Sats</span>
+                   <div className="text-7xl font-black text-slate-900 tracking-tight">{formatSats(results.totalSats)}</div>
                 </div>
             </div>
           </div>
 
-          {/* Footer branding area - Anchor to bottom with defined space */}
+          {/* Footer branding area */}
           <div className="flex flex-col items-center text-center pb-8 mt-16">
              <p className="text-2xl text-slate-400 font-bold mb-4">Start stacking sats today.</p>
              <p className="text-7xl font-black text-beaver-red tracking-tight">beaverbitcoin.com</p>
@@ -328,12 +330,12 @@ Source: bitcoindca.ca @beaverbitcoin`;
          </button>
       </div>
 
-      {/* MODAL OVERLAY - Optimized for Mobile Screen Fit with buttons */}
+      {/* MODAL OVERLAY - Optimized for Mobile Viewport */}
       {showModal && previewUrl && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-2 sm:p-4 bg-slate-900/90 backdrop-blur-md animate-fade-in">
           <div className="bg-white rounded-[24px] lg:rounded-[32px] max-w-4xl w-full flex flex-col lg:flex-row overflow-hidden shadow-2xl animate-scale-in max-h-[96vh]">
             
-            {/* Preview Display */}
+            {/* Left/Top: Preview Area */}
             <div className="flex-1 bg-slate-50 p-4 sm:p-6 lg:p-8 flex items-center justify-center overflow-hidden min-h-0">
                <div className="max-w-[260px] sm:max-w-[340px] lg:max-w-none w-full flex justify-center">
                   <img 
@@ -344,7 +346,7 @@ Source: bitcoindca.ca @beaverbitcoin`;
                </div>
             </div>
             
-            {/* Modal Controls */}
+            {/* Right/Bottom: Controls Area */}
             <div className="w-full lg:w-[350px] bg-white p-4 sm:p-6 lg:p-10 flex flex-col justify-center border-t lg:border-t-0 lg:border-l border-slate-100 shrink-0 overflow-y-auto">
                <div className="mb-3 sm:mb-6 text-center lg:text-left">
                  <h3 className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 mb-0.5 sm:mb-2 tracking-tight">Ready to Share</h3>
