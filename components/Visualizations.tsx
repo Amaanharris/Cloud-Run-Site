@@ -274,7 +274,7 @@ Source: bitcoindca.ca @beaverbitcoin`;
           </div>
 
           {/* DIVIDER & SECONDARY METRICS: Total Invested & Total Sats */}
-          <div className="flex w-full max-w-5xl justify-around border-t border-slate-50 pt-12">
+          <div className="flex w-full max-w-5xl justify-around pt-16">
               <div className="flex flex-col items-center text-center">
                  <span className="text-xl font-black text-slate-300 uppercase tracking-[0.2em] mb-4">Total Invested</span>
                  <div className="text-7xl font-black text-slate-900 tracking-tight">${results.totalInvested.toLocaleString()}</div>
