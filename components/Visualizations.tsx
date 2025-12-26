@@ -239,7 +239,7 @@ Source: bitcoindca.ca @beaverbitcoin`;
     <div className="w-full mt-16 relative">
       
       {/* 
-        HIDDEN SHARING GRAPHIC (1080x1080) - Optimized to prevent cutting off
+        HIDDEN SHARING GRAPHIC (1080x1080) - Precise 1:1 Reference
       */}
       <div 
         style={{ position: 'absolute', top: 0, left: '-2000px', width: '1080px', pointerEvents: 'none' }}
@@ -247,48 +247,51 @@ Source: bitcoindca.ca @beaverbitcoin`;
       >
         <div 
           id="share-card-content" 
-          className="bg-white p-20 font-sans flex flex-col items-center justify-between w-[1080px] h-[1080px]"
+          className="bg-white p-24 font-sans flex flex-col items-center w-[1080px] h-[1080px]"
         >
           {/* Header */}
-          <div className="flex w-full justify-between items-center border-b border-slate-100 pb-8">
+          <div className="flex w-full justify-between items-center border-b border-slate-100 pb-10 mb-12">
             <span className="text-2xl font-black text-slate-300 uppercase tracking-[0.4em]">DCA Calculator</span>
             <span className="text-2xl font-black text-slate-900 tracking-tighter">BitcoinDCA.ca</span>
           </div>
 
-          {/* Strategy */}
-          <div className="flex flex-col items-center text-center">
-            <span className="text-xl font-black text-slate-900 uppercase tracking-[0.2em] mb-4">
-              The Strategy <span className="ml-4 font-black text-slate-400">(ASSUMING {inputs.growthRate}% CAGR)</span>
-            </span>
-            <h2 className="text-7xl font-black text-slate-900 leading-tight tracking-tight">
-               Buying <span className="text-beaver-red">${inputs.monthlyDca}</span> monthly <br/> for <span className="text-beaver-red">{inputs.years} Years</span>
-            </h2>
-          </div>
+          {/* Main Content Area */}
+          <div className="flex flex-col items-center justify-center flex-grow w-full space-y-24">
+            
+            <div className="flex flex-col items-center text-center">
+              <span className="text-xl font-black text-slate-900 uppercase tracking-[0.2em] mb-4">
+                The Strategy <span className="ml-4 font-black text-slate-400">(ASSUMING {inputs.growthRate}% CAGR)</span>
+              </span>
+              <h2 className="text-7xl font-black text-slate-900 leading-tight tracking-tight">
+                 Buying <span className="text-beaver-red">${inputs.monthlyDca}</span> monthly <br/> for <span className="text-beaver-red">{inputs.years} Years</span>
+              </h2>
+            </div>
 
-          {/* HIGHLIGHT: Estimated Value Centerpiece - Requested 3x larger label & highlighted value */}
-          <div className="flex flex-col items-center text-center">
-            <span className="text-6xl font-black text-slate-300 uppercase tracking-[0.1em] mb-6">Estimated Value</span>
-            <div className="text-[150px] font-black text-beaver-red leading-none tracking-tighter">
-              {formatCurrency(results.finalValue)}
+            {/* HIGH VALUE FOCUS: Future Value (Swapped with Sats) */}
+            <div className="flex flex-col items-center text-center">
+              <span className="text-xl font-black text-slate-900 uppercase tracking-[0.4em] mb-4">Estimated Value</span>
+              <div className="text-[140px] font-black text-beaver-red leading-none tracking-tighter">
+                {formatCurrency(results.finalValue)}
+              </div>
+            </div>
+
+            <div className="flex w-full max-w-5xl justify-around border-t border-slate-50 pt-16">
+                <div className="flex flex-col items-center text-center">
+                   <span className="text-xl font-black text-slate-300 uppercase tracking-[0.2em] mb-4">Total Invested</span>
+                   <div className="text-7xl font-black text-slate-900 tracking-tight">${results.totalInvested.toLocaleString()}</div>
+                </div>
+                {/* Total Sats (Swapped with Future Value) */}
+                <div className="flex flex-col items-center text-center">
+                   <span className="text-xl font-black text-slate-300 uppercase tracking-[0.2em] mb-4">Total Sats</span>
+                   <div className="text-7xl font-black text-slate-900 tracking-tight">{formatSats(results.totalSats)}</div>
+                </div>
             </div>
           </div>
 
-          {/* DIVIDER & SECONDARY METRICS: Total Invested & Total Sats */}
-          <div className="flex w-full max-w-5xl justify-around pt-16">
-              <div className="flex flex-col items-center text-center">
-                 <span className="text-xl font-black text-slate-300 uppercase tracking-[0.2em] mb-4">Total Invested</span>
-                 <div className="text-7xl font-black text-slate-900 tracking-tight">${results.totalInvested.toLocaleString()}</div>
-              </div>
-              <div className="flex flex-col items-center text-center">
-                 <span className="text-xl font-black text-slate-300 uppercase tracking-[0.2em] mb-4">Total Sats</span>
-                 <div className="text-7xl font-black text-slate-900 tracking-tight">{formatSats(results.totalSats)}</div>
-              </div>
-          </div>
-
           {/* Footer branding area */}
-          <div className="flex flex-col items-center text-center mt-8">
+          <div className="flex flex-col items-center text-center pb-8 mt-16">
              <p className="text-2xl text-slate-400 font-bold mb-4">Start stacking sats today.</p>
-             <p className="text-8xl font-black text-beaver-red tracking-tight">beaverbitcoin.com</p>
+             <p className="text-7xl font-black text-beaver-red tracking-tight">beaverbitcoin.com</p>
           </div>
         </div>
       </div>
